@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+gem 'rack'
+gem 'dante'
+gem 'net-http-server'
+gem 'json'
+gem 'gcm'
+gem 'sqlite3'
+gem 'serialport'
+
+gem 'rspec'
