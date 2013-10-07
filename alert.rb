@@ -1,10 +1,7 @@
-#!/home/pi/.rvm/rubies/ruby-2.0.0-p195/bin/ruby
-
 $:.unshift File.dirname(__FILE__) + "/lib"
 require 'app_conf'
 
-Dante.run("alert") do |opts|
-  AppConf.setup if ARGV[1] == "setup"
+Dante.run("alerter") do |opts|
   alert = Alert.new
   alert.start
 end

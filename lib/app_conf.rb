@@ -17,9 +17,16 @@ module AppConf
   attr_accessor :ip, :port, :arduino, :database, :monitor_thread, :api_key
   
   def db
-    @@db ||= SQLite3::Database.new(self.database)
+    @@db ||= new_db
     @@db.results_as_hash = true
     @@db
+  end
+
+  def new_db
+    db_exists = File.exists?(self.database)
+    db = SQLite3::Database.new(self.database)
+    setup unless db_exists
+    db
   end
 
   def setup 
