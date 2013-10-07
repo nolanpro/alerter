@@ -14,7 +14,7 @@ require 'server'
 
 module AppConf
   extend self
-  attr_accessor :ip, :port, :database, :monitor_thread, :api_key
+  attr_accessor :ip, :port, :arduino, :database, :monitor_thread, :api_key
   
   def db
     @@db ||= SQLite3::Database.new(self.database)
@@ -51,7 +51,7 @@ module AppConf
 end
 
 AppConf.database = File.dirname(__FILE__) + "/../db/alert.db"
-AppConf.port = "/dev/ttyACM0"
+AppConf.arduino = "/dev/ttyACM0"
 AppConf.ip = "192.168.2.116"
 AppConf.api_key = "AIzaSyCUG7hnOn_tbJVTuMBzugty_otWFi8S6Us"
 AppConf.port = 3300
