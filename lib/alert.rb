@@ -1,9 +1,4 @@
 class Alert
-  def start
-    queue   = Queue.new
-    monitor = Monitor.new queue
-    server  = Server.new queue
+  def self.start
   end
 end
-
-
