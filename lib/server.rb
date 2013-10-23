@@ -4,6 +4,7 @@ require "logger"
 
 class Server < Sinatra::Base
   helpers Sinatra::JSON
+  set :bind, AppConf.ip
   set :port, AppConf.port
 
   class << self

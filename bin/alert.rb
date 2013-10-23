@@ -1,14 +1,5 @@
 require './lib/app_conf.rb'
-
-AppConf.database = File.dirname(__FILE__) + "/../db/alert.db"
-AppConf.arduino = "/dev/ttyACM0"
-AppConf.api_key = "AIzaSyCUG7hnOn_tbJVTuMBzugty_otWFi8S6Us"
-AppConf.port = 3300
-
-require './lib/arduino.rb'
-require './lib/messenger.rb'
-require './lib/monitor.rb'
-require './lib/server.rb'
+AppConf.load
 
 Dante.run("alerter") do |opts|
   queue   = Queue.new

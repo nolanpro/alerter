@@ -1,21 +1,26 @@
 require 'spec_helper'
+require 'rack/test'
+require 'ap'
 
 describe Server do
   before do
-    Net::HTTP::Server.stub(:run)
   end
 
-  it "should start the server" do
-    Server.any_instance.should_receive(:start_server).once
-    @server = Server.new(Queue.new)
+  include Rack::Test::Methods
+  def app
+    Sinatra::Application
   end
 
-  it "should use net http server" do
-    Net::HTTP::Server.should_receive(:run).with(port: 3300)
-    @server = Server.new(Queue.new)
+  describe "#get" do
+    it "should return a json string" do
+      get "/"
+      ap last_response
+      last_response.should be_ok
+      JSON.parse(last_response.body).should be_a Hash
+    end
   end
 
-  describe "handling the request" do
+  describe "#handle_request" do
     before do
       @queue = Queue.new
       @server = Server.new(@queue)
