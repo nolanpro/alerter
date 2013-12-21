@@ -7,16 +7,11 @@ class Server < Sinatra::Base
   set :bind, AppConf.ip
   set :port, AppConf.port
 
-  class << self
-    attr_accessor :queue
-  end
-
   get "/" do
     json handle_request(params)
   end
 
   def handle_request(params)
-    queue = {}
     if params["device_id"]
       puts params["device_id"]
       Messenger.register params["device_id"]
@@ -27,7 +22,9 @@ class Server < Sinatra::Base
       {result: "test sent"}
     else # stats request
       puts "Sending.."
-      queue.empty? ? {result: "nada"} : queue.pop
+      item = ThreadQueue.instance.get
+      return {result: "nada"} if item.nil?
+      item
     end
   end
 

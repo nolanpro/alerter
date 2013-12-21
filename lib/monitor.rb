@@ -2,7 +2,7 @@ class Monitor
 
   def initialize(queue)
     @messenger = Messenger.new
-    @queue = queue
+    @queue = ThreadQueue.instance
     clear_log
     AppConf.monitor_thread = Thread.new do
       start_monitor
@@ -50,7 +50,6 @@ class Monitor
       check(watts.to_f, alarm.to_i)
     end
 
-    @queue.clear
-    @queue << {watts: watts, amps: amps, alarm: alarm}
+    @queue.put({watts: watts, amps: amps, alarm: alarm})
   end
 end

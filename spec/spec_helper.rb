@@ -6,6 +6,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require './lib/app_conf.rb'
+require 'awesome_print'
 AppConf.load
 
 RSpec.configure do |config|

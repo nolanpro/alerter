@@ -1,11 +1,11 @@
+#!/usr/bin/env ruby
+
 require './lib/app_conf.rb'
+require 'awesome_print'
+
 AppConf.load
 
 Dante.run("alerter") do |opts|
-  queue   = Queue.new
-  monitor = Monitor.new queue
-  
-  Server.queue = queue
   Server.run!
 end
 

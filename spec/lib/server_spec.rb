@@ -1,42 +1,39 @@
 require 'spec_helper'
 require 'rack/test'
-require 'ap'
 
 describe Server do
-  before do
-  end
 
   include Rack::Test::Methods
+
   def app
-    Sinatra::Application
+    @app ||= Server.new!
   end
 
   describe "#get" do
     it "should return a json string" do
       get "/"
-      ap last_response
+      File.open("result.html", 'w') { |file| file.write(last_response.body) }
       last_response.should be_ok
-      JSON.parse(last_response.body).should be_a Hash
+      result = JSON.parse(last_response.body)
+      result.should be_a Hash
+      result['result'].should eq "nada"
     end
   end
 
   describe "#handle_request" do
     before do
-      @queue = Queue.new
-      @server = Server.new(@queue)
-      @request = { uri: { query: "" }}
     end
 
     it "should register a device id if provided" do
-      Rack::Utils.should_receive(:parse_nested_query).and_return({"device_id" => "12345"})
       Messenger.should_receive(:register).with("12345").once
-      @server.handle_request(@request).should eq({result: "ok"})
+      get '/?device_id=12345'
     end
 
     it "should return the queue item if no device id" do
-      Rack::Utils.should_receive(:parse_nested_query).and_return({})
-      @queue << "Hello"
-      @server.handle_request(@request).should eq("Hello")
+      ThreadQueue.instance.put({result: "Hello"})
+      get "/"
+      result = JSON.parse(last_response.body)
+      result['result'].should eq "Hello"
     end
   end
 
