@@ -21,7 +21,7 @@ class Monitor
   end
 
   def clear_log
-    AppConf.create_log_table
+    Db.instance.create_log_table
   end
   
   # arduino gives off random numbers for first few
@@ -46,7 +46,7 @@ class Monitor
     watts, amps, alarm = result.split(" ")
     
     buffer_check do
-      AppConf.log result if alarm.to_i > 0
+      # AppConf.log result if alarm.to_i > 0
       check(watts.to_f, alarm.to_i)
     end
 

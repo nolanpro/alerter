@@ -16,6 +16,7 @@ class AppConf
         self.class.send(:attr_accessor, key)
       end
 
+      require './lib/db.rb'
       require './lib/arduino.rb'
       require './lib/messenger.rb'
       require './lib/monitor.rb'

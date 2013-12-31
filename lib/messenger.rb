@@ -27,11 +27,11 @@ class Messenger
   end
 
   def device_id
-    AppConf.db.get_first_row("select * from config where key = 'gcm_id'")["value"]
+    Db.instance.get_first_row("select * from config where key = 'gcm_id'")["value"]
   end
 
   def self.register(id)
-    AppConf.db.execute("insert or replace into config (key,value) values ('gcm_id', ?)", id)
+    Db.instance.execute("insert or replace into config (key,value) values ('gcm_id', ?)", id)
   end
 
 end
