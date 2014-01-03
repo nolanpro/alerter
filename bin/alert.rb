@@ -6,6 +6,9 @@ require 'awesome_print'
 AppConf.load
 
 Dante.run("alerter") do |opts|
+  monitor = Monitor.new
+  monitor.run!
+
   Server.run!
 end
 

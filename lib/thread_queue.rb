@@ -13,6 +13,10 @@ class ThreadQueue
     queue.pop
   end
 
+  def clear
+    queue.clear
+  end
+
   private
 
   def queue

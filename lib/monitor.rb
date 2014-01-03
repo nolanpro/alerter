@@ -1,10 +1,11 @@
 class Monitor
+  attr_accessor :thread
 
-  def initialize(queue)
+  def run!
     @messenger = Messenger.new
     @queue = ThreadQueue.instance
     clear_log
-    AppConf.monitor_thread = Thread.new do
+    thread = Thread.new do
       start_monitor
     end
   end

@@ -4,17 +4,19 @@ describe Monitor do
   before do
     @queue = Queue.new
     Monitor.any_instance.stub(:start_monitor)
-    @monitor = Monitor.new(@queue)
+    @monitor = Monitor.new
+    @monitor.run!
   end
 
   after do
-    AppConf.monitor_thread.join unless AppConf.monitor_thread.nil?
+    @monitor.thread.join unless @monitor.thread.nil?
   end
 
   describe "#initialize" do
     it "should create a new messenger and start monitor the thead" do
       Messenger.should_receive(:new)
-      Monitor.new @queue
+      m = Monitor.new
+      m.run!
     end
   end
 

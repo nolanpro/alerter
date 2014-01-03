@@ -9,6 +9,10 @@ describe Server do
     @app ||= Server.new!
   end
 
+  before do
+    ThreadQueue.instance.clear
+  end
+
   describe "#get" do
     it "should return a json string" do
       get "/"
@@ -21,9 +25,6 @@ describe Server do
   end
 
   describe "#handle_request" do
-    before do
-    end
-
     it "should register a device id if provided" do
       Messenger.should_receive(:register).with("12345").once
       get '/?device_id=12345'
